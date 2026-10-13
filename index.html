@@ -1,5 +1,28 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>לתת ל-AI ספר</title>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>לתת ל-AI ספר · Smiley Solution</title>
+<meta name="description" content="מדריך קצר לחיבור קלוד לנושן, כך שלקלוד יש ספר שהוא קורא ממנו לפני משימה וכותב אליו בסוף.">
+<meta name="author" content="קים קרול">
+<meta name="theme-color" content="#0b0810">
+<link rel="canonical" href="https://smileysolution-ai-guide.netlify.app/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="Smiley Solution">
+<meta property="og:title" content="לתת ל-AI ספר">
+<meta property="og:description" content="מדריך קצר לחיבור קלוד לנושן, כך שלקלוד יש ספר שהוא קורא ממנו לפני משימה וכותב אליו בסוף.">
+<meta property="og:url" content="https://smileysolution-ai-guide.netlify.app/">
+<meta property="og:image" content="https://smileysolution-ai-guide.netlify.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="לתת ל-AI ספר. מדריך קצר לחיבור קלוד לנושן">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="לתת ל-AI ספר">
+<meta name="twitter:description" content="מדריך קצר לחיבור קלוד לנושן, כך שלקלוד יש ספר שהוא קורא ממנו לפני משימה וכותב אליו בסוף.">
+<meta name="twitter:image" content="https://smileysolution-ai-guide.netlify.app/og.jpg">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="bdcd474f-93c2-47aa-b1b1-aa06a217a004"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Poppins:wght@500;600;700&display=swap">
 <style>
@@ -108,7 +131,8 @@ footer p{margin:0 0 .6em}
   .step:hover .num{transform:translateY(-2px)}
 }
 </style>
-
+</head>
+<body>
 <main class="wrap" dir="rtl" lang="he">
   <header class="hero">
     <div class="eyebrow"><span>Claude</span><b>×</b><span>Notion</span></div>
@@ -299,15 +323,48 @@ footer p{margin:0 0 .6em}
 </main>
 
 <script>
-document.querySelectorAll('.copy').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var el = document.getElementById(btn.dataset.target);
-    var text = el.textContent.replace(/^"|"$/g,'');
-    var done = function(){ btn.textContent = 'הועתק'; setTimeout(function(){ btn.textContent = 'העתקה'; }, 1600); };
-    var fallback = function(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'סומן, אפשר להעתיק'; };
-    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+(function(){
+  // ?r=dana  ->  "dana" (personal link tag, letters/numbers/-/_ only)
+  var r = '';
+  try { r = (new URLSearchParams(location.search).get('r') || '').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,40); } catch(e){}
+  var data = function(extra){ var d = { r: r || 'none' }; for (var k in extra) d[k] = extra[k]; return d; };
+  var queue = [];
+  function track(name, extra){
+    if (window.umami && typeof window.umami.track === 'function') { try { window.umami.track(name, data(extra||{})); } catch(e){} }
+    else queue.push([name, extra]);
+  }
+  var tries = 0;
+  var flush = setInterval(function(){
+    tries++;
+    if (window.umami && typeof window.umami.track === 'function') {
+      clearInterval(flush);
+      while (queue.length) { var q = queue.shift(); try { window.umami.track(q[0], data(q[1]||{})); } catch(e){} }
+    } else if (tries > 40) { clearInterval(flush); }
+  }, 250);
+
+  track('open');
+
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.dataset.target);
+      var text = el.textContent.replace(/^"|"$/g,'');
+      track('copy-prompt', { prompt: btn.dataset.target === 'p1' ? 'before-task' : 'end-of-day' });
+      var done = function(){ btn.textContent = 'הועתק'; setTimeout(function(){ btn.textContent = 'העתקה'; }, 1600); };
+      var fallback = function(){ var rg = document.createRange(); rg.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(rg); btn.textContent = 'סומן, אפשר להעתיק'; };
+      try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+    });
   });
-});
+
+  var sec = document.getElementById('security');
+  if (sec && 'IntersectionObserver' in window) {
+    var seen = false;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting && !seen) { seen = true; track('read-to-security'); io.disconnect(); } });
+    }, { threshold: 0.4 });
+    io.observe(sec);
+  }
+})();
 </script>
 
-</body></html>
+</body>
+</html>
