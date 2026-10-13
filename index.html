@@ -1,0 +1,313 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>לתת ל-AI ספר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Poppins:wght@500;600;700&display=swap">
+<style>
+/* Layout: one narrow reading column (phone first), dark stage with purple glow like Kim's covers; screenshots in purple frames, magenta only marks what you tap. */
+:root{
+  --bg:#0b0810;
+  --surface:#15101d;
+  --surface-2:#1d1628;
+  --line:#2c2238;
+  --fg:#f1ecf7;
+  --muted:#a89cb8;
+  --purple:#6B3FA0;
+  --purple-soft:#9a72cf;
+  --magenta:#E6197F;
+  --he:"Rubik",system-ui,"Segoe UI",Arial,sans-serif;
+  --en:"Poppins","Rubik",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);direction:rtl}
+body{
+  margin:0;color:var(--fg);font-family:var(--he);font-size:17px;line-height:1.7;
+  background:
+    radial-gradient(60rem 34rem at 85% -8rem, rgba(107,63,160,.55), transparent 65%),
+    radial-gradient(40rem 30rem at -10% 30rem, rgba(107,63,160,.22), transparent 70%),
+    var(--bg);
+  background-repeat:no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+code.en, .ui{font-family:var(--en);font-size:.88em;font-weight:500;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:.05em .4em;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+
+/* hero */
+.hero{padding-block:36px 8px}
+.eyebrow{font-family:var(--en);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);display:flex;gap:.6em;align-items:center}
+.eyebrow b{color:var(--magenta);font-weight:700}
+h1{font-weight:800;font-size:clamp(2.5rem,11vw,3.6rem);line-height:1.05;margin:.35em 0 .3em;text-wrap:balance;letter-spacing:-.01em}
+h1 .hl{color:var(--magenta)}
+.lede{color:var(--muted);font-size:1.08rem;margin:0;max-width:34ch}
+
+/* sections */
+section{padding-top:44px}
+h2{font-size:1.55rem;font-weight:700;line-height:1.25;margin:0 0 .5em;text-wrap:balance}
+h2 .kicker{display:block;font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:.35em}
+p{margin:0 0 1em}
+a{color:var(--fg);text-decoration-color:var(--magenta);text-underline-offset:3px;text-decoration-thickness:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:6px}
+
+/* diagram */
+.flow{margin:18px 0 6px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 10px}
+.flow svg{display:block;width:100%;height:auto}
+
+/* need list */
+.need{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.need li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.need .dot{width:10px;height:10px;border-radius:50%;background:var(--purple);margin-top:.65em;box-shadow:0 0 0 4px rgba(107,63,160,.25)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:30px;counter-reset:s}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start}
+.num{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--en);font-weight:700;font-size:1.1rem;background:var(--purple);color:#fff;box-shadow:0 6px 24px rgba(107,63,160,.45)}
+.step h3{font-size:1.12rem;font-weight:700;margin:.3em 0 .3em}
+.step p{margin:0 0 .6em}
+
+/* screenshots */
+.step .shot,.step .ph{margin-inline-start:-58px}
+.shot{margin:12px 0 0;padding:6px;background:#0f0b16;border:1.5px solid var(--purple);border-radius:16px;box-shadow:0 0 0 4px rgba(107,63,160,.12),0 18px 40px rgba(0,0,0,.45)}
+.shot img{display:block;width:100%;height:auto;border-radius:10px}
+.shot.narrow{max-width:300px}
+.shot.mid{max-width:420px}
+.shot figcaption{font-size:.8rem;color:var(--muted);padding:8px 6px 2px}
+.ph{margin:12px 0 0;border:2px dashed var(--magenta);border-radius:16px;padding:22px 16px;text-align:center;color:var(--magenta);font-weight:500;font-size:.95rem;background:rgba(230,25,127,.06)}
+.ph small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--muted);font-size:.95rem;margin-top:16px}
+.note strong{color:var(--fg)}
+
+/* book chapters */
+.chapters{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.chapters li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.chapters b{display:block;color:var(--fg)}
+.chapters span{color:var(--muted);font-size:.93rem}
+
+/* prompt cards */
+.cards{display:grid;gap:14px}
+.card{position:relative;border-radius:18px;padding:18px 18px 16px;background:linear-gradient(160deg,rgba(107,63,160,.32),rgba(21,16,29,.9) 60%);border:1px solid rgba(154,114,207,.4)}
+.card .tag{font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta)}
+.card h3{margin:.2em 0 .5em;font-size:1.1rem}
+.card blockquote{margin:0;font-size:1.02rem;line-height:1.65;color:var(--fg)}
+.copy{margin-top:12px;font:500 .85rem var(--he);color:var(--fg);background:transparent;border:1px solid rgba(154,114,207,.55);border-radius:999px;padding:6px 14px;cursor:pointer}
+.copy:hover{border-color:var(--magenta)}
+
+/* security */
+.sec{border-inline-start:3px solid var(--magenta);padding-inline-start:16px}
+.tip{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:6px}
+.tip .t{font-family:var(--en);font-weight:600;font-size:.75rem;letter-spacing:.1em;color:var(--purple-soft);text-transform:uppercase}
+
+footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted)}
+footer p{margin:0 0 .6em}
+.sig{color:var(--fg);font-weight:700;font-size:1.05rem}
+.sig .en{font-weight:600}
+
+@media (prefers-reduced-motion:no-preference){
+  .num{transition:transform .2s}
+  .step:hover .num{transform:translateY(-2px)}
+}
+</style>
+
+<main class="wrap" dir="rtl" lang="he">
+  <header class="hero">
+    <div class="eyebrow"><span>Claude</span><b>×</b><span>Notion</span></div>
+    <h1>לתת ל-AI <span class="hl">ספר</span></h1>
+    <p class="lede">מדריך קצר לחיבור קלוד לנושן</p>
+  </header>
+
+  <section id="problem">
+    <h2><span class="kicker">The problem</span>הבעיה</h2>
+    <p>אני עסק של אדם אחד. בונה אתרים, מצלם, עורך, כותב, מדבר עם לקוחות. בכל תחום כזה יש החלטות, כללים וטעויות שכבר למדתי מהן.</p>
+    <p>הבעיה הייתה שכל שיחה עם AI התחילה מאפס. מי אני, למי אני מדבר, מה כבר ניסיתי ולא עבד. הסברתי את זה שוב ושוב, ובכל פעם קצת אחרת.</p>
+  </section>
+
+  <section id="idea">
+    <h2><span class="kicker">The idea</span>הרעיון</h2>
+    <p>אז נתתי לו ספר. נושן הוא המקום שבו כל ההגדרות שלי כתובות. קלוד מחובר אליו, קורא לפני משימה רק את הדפים שרלוונטיים לה, ובסוף כותב לשם מה שנעשה. ככה הספר גדל, ואני לא מתחיל מחדש.</p>
+    <div class="flow" role="img" aria-label="קלוד קורא מנושן דרך MCP לפני משימה, וכותב לנושן דרך MCP בסוף">
+      <svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9a72cf"/></marker>
+          <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E6197F"/></marker>
+        </defs>
+        <!-- Claude (right) -->
+        <rect x="262" y="66" width="88" height="58" rx="14" fill="#6B3FA0"/>
+        <text x="306" y="101" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="16" fill="#ffffff">Claude</text>
+        <!-- MCP (middle) -->
+        <rect x="140" y="74" width="80" height="42" rx="21" fill="#1d1628" stroke="#9a72cf" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="180" y="100" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="14" fill="#cbb6ea">MCP</text>
+        <!-- Notion (left) -->
+        <rect x="10" y="66" width="88" height="58" rx="14" fill="#f1ecf7"/>
+        <text x="54" y="101" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="16" fill="#0b0810">Notion</text>
+        <!-- read: Notion -> Claude (top) -->
+        <path d="M54 62 C 70 20, 290 20, 306 62" fill="none" stroke="#9a72cf" stroke-width="2" marker-end="url(#ah)"/>
+        <text x="180" y="22" text-anchor="middle" font-family="Rubik, sans-serif" font-size="14" fill="#cbb6ea">קורא מהספר לפני משימה</text>
+        <!-- write: Claude -> Notion (bottom) -->
+        <path d="M306 128 C 290 170, 70 170, 54 128" fill="none" stroke="#E6197F" stroke-width="2" marker-end="url(#am)"/>
+        <text x="180" y="182" text-anchor="middle" font-family="Rubik, sans-serif" font-size="14" fill="#f39ac6">כותב לספר בסוף</text>
+      </svg>
+    </div>
+    <p><span class="en">MCP</span> הוא הגשר שמאפשר לקלוד לקרוא ולכתוב בנושן. לא צריך לדעת איך הוא עובד כדי להשתמש בו.</p>
+  </section>
+
+  <section id="need">
+    <h2><span class="kicker">Before you start</span>מה צריך</h2>
+    <ul class="need">
+      <li><span class="dot"></span><span>חשבון <span class="en">Claude</span>. לפי <a href="https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities" target="_blank" rel="noopener">האתר הרשמי של Anthropic</a>, זה זמין גם בחשבון חינמי.</span></li>
+      <li><span class="dot"></span><span>חשבון <span class="en">Notion</span>. אין לכם? בשלב הבא. אצלי זה מחובר ל-workspace במסלול החינמי של נושן.</span></li>
+      <li><span class="dot"></span><span>מחשב לחיבור הראשון. אחרי זה זה עובד גם באפליקציה בטלפון.</span></li>
+    </ul>
+  </section>
+
+  <section id="setup">
+    <h2><span class="kicker">Notion setup</span>הכנה בנושן</h2>
+    <p>כבר יש לכם נושן עם workspace? תדלגו לשלב 3.</p>
+    <ol class="steps">
+      <li class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>הרשמה</h3>
+          <p>באתר של נושן, <span class="ui">Get Notion free</span>. תכניסו מייל ותלחצו <span class="ui">Continue</span>, או שתירשמו עם Google, Microsoft או ChatGPT.</p>
+          <figure class="shot mid"><img src="img/n1-signup.jpg" alt="חלון ההרשמה של נושן עם שדה מייל וכפתור Continue" width="480" height="699"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>workspace</h3>
+          <p>כל מה שעושים בנושן קורה בתוך workspace. השם שלו מופיע בתחתית סרגל הצד. אין לכם עדיין, או שאתם רוצים אחד נפרד רק לספר? תלחצו על השם, ואז <span class="ui">New workspace</span>.</p>
+          <figure class="shot narrow"><img src="img/n2-workspace.jpg" alt="תפריט ה-workspace בנושן עם New workspace" width="451" height="610"></figure>
+          <p style="margin-top:14px">נושן ישאל <span class="ui">What is this space for?</span>. תבחרו מה שמתאים לכם.</p>
+          <figure class="shot mid"><img src="img/n3-space-for.jpg" alt="חלון What is this space for בנושן" width="547" height="438"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>דף ראשון</h3>
+          <p>בסרגל הצד, ליד <span class="ui">Private</span>, תלחצו על "+" (<span class="ui">Add a page</span>).</p>
+          <figure class="shot mid"><img src="img/n4-add-page.jpg" alt="כפתור הפלוס ליד Private עם Add a page" width="406" height="388"></figure>
+          <p style="margin-top:14px">תקראו לדף "הספר שלי". זה דף האינדקס. תכתבו בו שתי שורות על מי אתם ומה אתם עושים, וכבר יהיה לקלוד מה לקרוא אחרי החיבור.</p>
+          <figure class="shot mid"><img src="img/n5-my-book.jpg" alt="דף חדש בשם הספר שלי בסרגל הצד" width="421" height="377"></figure>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="connect">
+    <h2><span class="kicker">Connect</span>החיבור</h2>
+    <ol class="steps">
+      <li class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Connectors</h3>
+          <p>בהגדרות של קלוד, ברשימה בצד תחת <span class="ui">Customize</span>, תלחצו על <span class="ui">Connectors</span>.</p>
+          <figure class="shot narrow"><img src="img/c1-connectors.jpg" alt="Customize ואז Connectors בהגדרות של קלוד" width="236" height="182"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>למצוא את נושן</h3>
+          <p>תעברו ללשונית <span class="ui">Discover</span> ותחפשו notion. תבחרו את זה שכתוב לידו <span class="ui">Connector · by Notion</span>. בחיפוש יופיעו גם תוספים של אחרים עם שם דומה.</p>
+          <figure class="shot"><img src="img/c2-discover.jpg" alt="חיפוש notion בלשונית Discover" width="549" height="206"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>Connect</h3>
+          <p>בעמוד של נושן, <span class="ui">Connect</span>.</p>
+          <figure class="shot mid"><img src="img/c3-connect.jpg" alt="כפתור Connect בעמוד הקונקטור של נושן" width="480" height="204"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>אישור בנושן</h3>
+          <p>ייפתח חלון של נושן. תבחרו workspace תחת <span class="ui">Select workspace</span>, תקראו מה קלוד יוכל לעשות, ו-<span class="ui">Continue</span>.</p>
+          <figure class="shot mid"><img src="img/c4-consent.jpg" alt="חלון Connect with Notion MCP עם בחירת workspace וכפתור Continue" width="431" height="515"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">5</div>
+        <div>
+          <h3>Connected</h3>
+          <p>כשמופיע <span class="ui">Connected</span>, תחזרו לאפליקציה של קלוד.</p>
+          <figure class="shot mid"><img src="img/c5-connected.jpg" alt="מסך Connected" width="450" height="344"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">6</div>
+        <div>
+          <h3>להדליק בשיחה</h3>
+          <p>בשיחה, תלחצו על "+" למטה משמאל, תעברו ל-<span class="ui">Connectors</span> ותדליקו את <span class="ui">Notion</span>.</p>
+          <figure class="shot mid"><img src="img/c6-chat.jpg" alt="תפריט הפלוס בשיחה, Connectors, והמתג של Notion" width="492" height="1056"></figure>
+        </div>
+      </li>
+    </ol>
+    <div class="note">אם משהו נתקע, תנתקו ותחברו מחדש מאותו מסך של <span class="ui">Connectors</span>.</div>
+  </section>
+
+  <section id="book">
+    <h2><span class="kicker">My book</span>הספר שלי, כדוגמה</h2>
+    <p>הספר לא צריך להיות מושלם. שלי התחיל מדף אחד. היום יש בו:</p>
+    <ul class="chapters">
+      <li><b>מי אני</b><span>הסיפור, איך אני מדבר, מה אני עושה ומה לא.</span></li>
+      <li><b>קהל יעד</b><span>למי אני מדבר ומה מפריע לו.</span></li>
+      <li><b>ניתוח פוסטים</b><span>מה עלה, מה המספרים אמרו, ומה החלטתי בעקבות זה.</span></li>
+      <li><b>פורמטים</b><span>איך בנוי סרטון, צבעים, פונטים, מה נעול.</span></li>
+      <li><b>יומן עשייה</b><span>מה באמת נעשה כל יום.</span></li>
+    </ul>
+    <p>מעל כולם יש דף אינדקס אחד שמקשר לכל השאר. בפרויקט בקלוד כתבתי הוראה אחת: לפני כל משימה, תקרא קודם את דף האינדקס, ומשם את מה שרלוונטי.</p>
+    <figure class="shot"><img src="img/b1-content-hq.jpg" alt="דף Content HQ בנושן עם רשימת הדפים של הספר" width="560" height="530"></figure>
+  </section>
+
+  <section id="try">
+    <h2><span class="kicker">Try it</span>שתי בקשות לנסות</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="tag">Before a task</div>
+        <h3>לפני משימה</h3>
+        <blockquote id="p1">"תקרא את דף מי אני ואת דף הפורמטים בנושן, ואז תעזור לי לבנות מבנה לסרטון על [נושא]."</blockquote>
+        <button class="copy" type="button" data-target="p1">העתקה</button>
+      </article>
+      <article class="card">
+        <div class="tag">End of day</div>
+        <h3>סוף יום</h3>
+        <blockquote id="p2">"תסכם מה עשינו היום בשיחה הזו, ותציע רישום ליומן העשייה בנושן. אל תכתוב עד שאני מאשר."</blockquote>
+        <button class="copy" type="button" data-target="p2">העתקה</button>
+      </article>
+    </div>
+  </section>
+
+  <section id="security">
+    <h2><span class="kicker">Security</span>אבטחה</h2>
+    <div class="sec">
+      <p>קלוד מקבל גישה לכל ה-workspace שחיברתם. אצלי זה בכוונה, זה הספר שלו. אם יש לכם דברים שלא תרצו שהוא ייגע בהם, תשאירו אותם ב-workspace אחר.</p>
+      <p>דבר אחד ששווה לדעת: תוכן שמגיע מבחוץ, דף שהעתקתם או תבנית שהורדתם, יכול להכיל הוראה שקלוד עלול לבצע. אז לא מכניסים לספר משהו שלא יודעים מה כתוב בו. זה אותו לקח מאירוע הסייבר שלי: לדעת מה רץ אצלכם לפני שזה רץ.</p>
+      <p>ובאותו כיוון: בחלון האישור של נושן כתוב מה קלוד יוכל לעשות, כולל לפעול בשמכם לפי ההרשאות שלכם. תקראו אותו לפני <span class="ui">Continue</span>.</p>
+    </div>
+    <div class="tip"><span class="t">Tip</span><span><a href="https://developers.notion.com/docs/mcp-security-best-practices" target="_blank" rel="noopener">נושן ממליצים</a> להפעיל אישור לפני פעולות שמשנות תוכן. ככה אתם רואים מה קלוד רוצה לכתוב לפני שזה קורה.</span></div>
+  </section>
+
+  <footer>
+    <p>זה לא סוד ולא מערכת מושלמת. זה איך שאני עובד היום, וזה עוד משתנה.</p>
+    <p class="sig">קים קרול · <span class="en">Smiley Solution</span> · <span class="en">@kroll_k</span></p>
+  </footer>
+</main>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var el = document.getElementById(btn.dataset.target);
+    var text = el.textContent.replace(/^"|"$/g,'');
+    var done = function(){ btn.textContent = 'הועתק'; setTimeout(function(){ btn.textContent = 'העתקה'; }, 1600); };
+    var fallback = function(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'סומן, אפשר להעתיק'; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+  });
+});
+</script>
+
+</body></html>
