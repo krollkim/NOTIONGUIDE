@@ -1,0 +1,3 @@
+/              /notion/             302
+/og.jpg        /notion/og.jpg       301
+/img/*         /notion/img/:splat   301

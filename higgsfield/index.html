@@ -1,0 +1,314 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ממשק אחד לכל המודלים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Poppins:wght@500;600;700&display=swap">
+<style>
+/* Layout: one narrow reading column (phone first), dark stage with purple glow like Kim's covers; screenshots in purple frames, magenta only marks what you tap. */
+:root{
+  --bg:#0b0810;
+  --surface:#15101d;
+  --surface-2:#1d1628;
+  --line:#2c2238;
+  --fg:#f1ecf7;
+  --muted:#a89cb8;
+  --purple:#6B3FA0;
+  --purple-soft:#9a72cf;
+  --magenta:#E6197F;
+  --he:"Rubik",system-ui,"Segoe UI",Arial,sans-serif;
+  --en:"Poppins","Rubik",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);direction:rtl}
+body{
+  margin:0;color:var(--fg);font-family:var(--he);font-size:17px;line-height:1.7;
+  background:
+    radial-gradient(60rem 34rem at 85% -8rem, rgba(107,63,160,.55), transparent 65%),
+    radial-gradient(40rem 30rem at -10% 30rem, rgba(107,63,160,.22), transparent 70%),
+    var(--bg);
+  background-repeat:no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+code.en, .ui{font-family:var(--en);font-size:.88em;font-weight:500;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:.05em .4em;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+
+/* hero */
+.hero{padding-block:36px 8px}
+.eyebrow{font-family:var(--en);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);display:flex;gap:.6em;align-items:center}
+.eyebrow b{color:var(--magenta);font-weight:700}
+h1{font-weight:800;font-size:clamp(2.5rem,11vw,3.6rem);line-height:1.05;margin:.35em 0 .3em;text-wrap:balance;letter-spacing:-.01em}
+h1 .hl{color:var(--magenta)}
+.lede{color:var(--muted);font-size:1.08rem;margin:0;max-width:34ch}
+
+/* sections */
+section{padding-top:44px}
+h2{font-size:1.55rem;font-weight:700;line-height:1.25;margin:0 0 .5em;text-wrap:balance}
+h2 .kicker{display:block;font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:.35em}
+p{margin:0 0 1em}
+a{color:var(--fg);text-decoration-color:var(--magenta);text-underline-offset:3px;text-decoration-thickness:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:6px}
+
+/* diagram */
+.flow{margin:18px 0 6px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 10px}
+.flow svg{display:block;width:100%;height:auto}
+
+/* need list */
+.need{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.need li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.need .dot{width:10px;height:10px;border-radius:50%;background:var(--purple);margin-top:.65em;box-shadow:0 0 0 4px rgba(107,63,160,.25)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:30px;counter-reset:s}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start}
+.num{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--en);font-weight:700;font-size:1.1rem;background:var(--purple);color:#fff;box-shadow:0 6px 24px rgba(107,63,160,.45)}
+.step h3{font-size:1.12rem;font-weight:700;margin:.3em 0 .3em}
+.step p{margin:0 0 .6em}
+
+/* screenshots */
+.step .shot,.step .ph{margin-inline-start:-58px}
+.shot{margin:12px 0 0;padding:6px;background:#0f0b16;border:1.5px solid var(--purple);border-radius:16px;box-shadow:0 0 0 4px rgba(107,63,160,.12),0 18px 40px rgba(0,0,0,.45)}
+.shot img{display:block;width:100%;height:auto;border-radius:10px}
+.shot.narrow{max-width:300px}
+.shot.mid{max-width:420px}
+.shot figcaption{font-size:.8rem;color:var(--muted);padding:8px 6px 2px}
+.ph{margin:12px 0 0;border:2px dashed var(--magenta);border-radius:16px;padding:22px 16px;text-align:center;color:var(--magenta);font-weight:500;font-size:.95rem;background:rgba(230,25,127,.06)}
+.ph small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--muted);font-size:.95rem;margin-top:16px}
+.note strong{color:var(--fg)}
+
+/* book chapters */
+.chapters{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.chapters li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.chapters b{display:block;color:var(--fg)}
+.chapters span{color:var(--muted);font-size:.93rem}
+
+/* prompt cards */
+.cards{display:grid;gap:14px}
+.card{position:relative;border-radius:18px;padding:18px 18px 16px;background:linear-gradient(160deg,rgba(107,63,160,.32),rgba(21,16,29,.9) 60%);border:1px solid rgba(154,114,207,.4)}
+.card .tag{font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta)}
+.card h3{margin:.2em 0 .5em;font-size:1.1rem}
+.card blockquote{margin:0;font-size:1.02rem;line-height:1.65;color:var(--fg)}
+.copy{margin-top:12px;font:500 .85rem var(--he);color:var(--fg);background:transparent;border:1px solid rgba(154,114,207,.55);border-radius:999px;padding:6px 14px;cursor:pointer}
+.copy:hover{border-color:var(--magenta)}
+
+/* security */
+.sec{border-inline-start:3px solid var(--magenta);padding-inline-start:16px}
+.tip{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:6px}
+.tip .t{font-family:var(--en);font-weight:600;font-size:.75rem;letter-spacing:.1em;color:var(--purple-soft);text-transform:uppercase}
+
+footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted)}
+footer p{margin:0 0 .6em}
+.sig{color:var(--fg);font-weight:700;font-size:1.05rem}
+.sig .en{font-weight:600}
+
+@media (prefers-reduced-motion:no-preference){
+  .num{transition:transform .2s}
+  .step:hover .num{transform:translateY(-2px)}
+}
+
+.sub{font-size:1.15rem;margin:34px 0 12px}
+.code{margin:10px 0 0;background:#0f0b16;border:1px solid var(--line);border-radius:12px;padding:12px 14px;overflow-x:auto;font:500 .9rem/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--fg);text-align:left}
+.step .code{margin-right:-58px}
+.dev{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.dev summary{cursor:pointer;font-weight:600;color:var(--fg)}
+.dev p{color:var(--muted);font-size:.95rem;margin:.8em 0 0}
+.dev[open] summary{margin-bottom:4px}
+</style>
+<main class="wrap" dir="rtl" lang="he">
+  <header class="hero">
+    <div class="eyebrow"><span>Higgsfield</span><b>×</b><span>Claude</span></div>
+    <h1>ממשק אחד שמאפשר לכם להשתמש <span class="hl">בכל המודלים</span></h1>
+    <p class="lede">מדריך קצר להיגספילד, ולחיבור שלו לקלוד</p>
+  </header>
+
+  <section id="what">
+    <h2><span class="kicker">What it is</span>מה זה היגספילד</h2>
+    <p>במקום שתצטרכו לעבור בין כלים, היגספילד מאגדים לכם את הכל. בוחרים מודל לתמונה או לווידאו, כותבים מה רוצים, ומקבלים תוצאה. משלמים בקרדיטים.</p>
+  </section>
+
+  <section id="need">
+    <h2><span class="kicker">Before you start</span>מה צריך</h2>
+    <ul class="need">
+      <li><span class="dot"></span><span>חשבון <span class="en">Higgsfield</span>. נרשמים בחינם. מסלול בתשלום פותח, לפי היגספילד, יותר מודלים וסרטונים ארוכים יותר.</span></li>
+      <li><span class="dot"></span><span>רעיון אחד ברור למה שאתם רוצים לראות.</span></li>
+      <li><span class="dot"></span><span>לחיבור לקלוד, בסוף: חשבון <span class="en">Claude</span>.</span></li>
+    </ul>
+  </section>
+
+  <section id="first">
+    <h2><span class="kicker">First image</span>יצירה ראשונה</h2>
+    <ol class="steps">
+      <li class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>הרשמה</h3>
+          <p>באתר של היגספילד אפשר להירשם עם Google, Apple או Microsoft. לפי מסך ההרשמה, מי שנרשם עם מייל של עבודה מקבל 50 קרדיטים.</p>
+          <figure class="shot mid"><img src="img/h1-signup.jpg" alt="מסך ההרשמה של היגספילד" width="480" height="803"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>Create Image</h3>
+          <p>בתפריט למעלה, <span class="ui">Image</span> ואז <span class="ui">Create Image</span>. לווידאו זה אותו דבר, דרך <span class="ui">Video</span>.</p>
+          <figure class="shot"><img src="img/h2-image-menu.jpg" alt="תפריט Image ו-Create Image בהיגספילד" width="560" height="279"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>לבחור מודל</h3>
+          <p>למטה, ליד שורת הכתיבה, מופיע שם המודל. לוחצים עליו ובוחרים. לא יודעים איזה? תתחילו מאחד ותשוו אחר כך.</p>
+          <figure class="shot mid"><img src="img/h3-models.jpg" alt="רשימת המודלים בהיגספילד" width="480" height="800"></figure>
+          <p style="margin-top:14px">ליד חלק מהמודלים מופיע <span class="ui">UNLIMITED</span>. באתר עצמו הם לא מורידים קרדיטים, תלוי במסלול שלכם.</p>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>לכתוב וליצור</h3>
+          <p>בשורה <span class="ui">Describe the scene you imagine</span> כותבים מה רוצים. באנגלית, ובתיאור ולא בשם: מה רואים, מאיזו זווית, באיזה אור, על איזה רקע.</p>
+          <p>מתחת יש הגדרות: יחס, איכות, רזולוציה וכמה תמונות. על כפתור <span class="ui">GENERATE</span> כתוב כמה קרדיטים זה יעלה, לפני שלוחצים.</p>
+          <figure class="shot"><img src="img/h4-prompt.jpg" alt="שורת הכתיבה וכפתור GENERATE עם מחיר בקרדיטים" width="600" height="295"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">5</div>
+        <div>
+          <h3>Assets</h3>
+          <p>כל מה שנוצר נשמר ב-<span class="ui">Assets</span>, למעלה מימין. לוחצים על תמונה, ו-<span class="ui">Download</span>.</p>
+          <figure class="shot mid"><img src="img/h5-assets.jpg" alt="Assets ו-Download בהיגספילד" width="520" height="227"></figure>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="learned">
+    <h2><span class="kicker">What I learned</span>מה למדתי</h2>
+    <ul class="chapters">
+      <li><b>תקרה לפני שמתחילים</b><span>כל ניסיון עולה קרדיטים. אצלי יש תקרה של 30 קרדיטים לאתר, ואני מחליט עליה לפני הניסיון הראשון.</span></li>
+      <li><b>מילים נחסמות</b><span>burekas נחסם בסינון. כתבתי pastry, ויצא בורקס.</span></li>
+      <li><b>תיאור, לא שם</b><span>מה שהמודל לא מכיר, הוא לא יצייר. תתארו צורה, חומר ואור.</span></li>
+    </ul>
+  </section>
+
+  <section id="claude">
+    <h2><span class="kicker">Bonus</span>לחבר לקלוד</h2>
+    <p>אפשר לבקש מקלוד לייצר בשבילכם, בלי לפתוח את היגספילד. קלוד כותב את הבקשה, שולח, והתמונה נשמרת ב-<span class="ui">Assets</span> שלכם.</p>
+    <ol class="steps">
+      <li class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Connectors</h3>
+          <p>בהגדרות של קלוד, תחת <span class="ui">Customize</span>, תלחצו על <span class="ui">Connectors</span>.</p>
+          <figure class="shot narrow"><img src="img/c1-connectors.jpg" alt="Customize ואז Connectors בהגדרות של קלוד" width="236" height="182"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>קונקטור מותאם</h3>
+          <p>למעלה, <span class="ui">+ Add</span> ואז <span class="ui">Add custom connector</span>. ב-<span class="ui">Name</span> כותבים Higgsfield, וב-<span class="ui">MCP server URL</span> מדביקים את הכתובת:</p>
+          <pre class="code" dir="ltr"><code id="u1">https://mcp.higgsfield.ai/mcp</code></pre>
+          <button class="copy" type="button" data-target="u1" data-kind="url">העתקה</button>
+          <p style="margin-top:12px">ואז <span class="ui">Continue</span>.</p>
+          <figure class="shot"><img src="img/h6-custom.jpg" alt="Add custom connector עם השדות Name ו-MCP server URL" width="600" height="646"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>הגדרות</h3>
+          <p>קלוד מזהה לבד את ההגדרות, ומסמן אותן <span class="ui">Detected</span>. משאירים כמו שזה ולוחצים <span class="ui">Add</span>.</p>
+          <figure class="shot"><img src="img/h7-settings.jpg" alt="הגדרות הקונקטור עם Detected וכפתור Add" width="600" height="330"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>Connect</h3>
+          <p>בעמוד של הקונקטור, <span class="ui">Connect</span>.</p>
+          <figure class="shot mid"><img src="img/h8-connect.jpg" alt="עמוד הקונקטור של היגספילד עם Connect" width="470" height="285"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">5</div>
+        <div>
+          <h3>לאשר</h3>
+          <p>נפתח דף של קלוד שמוודא שאתם אלה שהתחילו את החיבור. אם כן, <span class="ui">Continue connecting</span>, ומשם נכנסים לחשבון היגספילד ומאשרים. בלי מפתח API.</p>
+          <figure class="shot"><img src="img/h9-finish.jpg" alt="Finish connecting a connector עם Continue connecting" width="560" height="296"></figure>
+        </div>
+      </li>
+    </ol>
+    <div class="note"><strong>בחשבון חינמי של קלוד</strong> אפשר קונקטור מותאם אחד בלבד, <a href="https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities" target="_blank" rel="noopener">לפי Anthropic</a>. אם כבר יש לכם אחד, תצטרכו לבחור.</div>
+
+    <h3 class="sub">שתי בקשות לנסות</h3>
+    <div class="cards">
+      <article class="card">
+        <div class="tag">Before generating</div>
+        <h3>לפני שמייצרים</h3>
+        <blockquote id="p1">"תבדוק כמה קרדיטים נשארו לי בהיגספילד, ותציע שלוש בקשות לתמונה של [מה שאתם צריכים]. אל תייצר עד שאני בוחר."</blockquote>
+        <button class="copy" type="button" data-target="p1">העתקה</button>
+      </article>
+      <article class="card">
+        <div class="tag">Compare</div>
+        <h3>להשוות מודלים</h3>
+        <blockquote id="p2">"תייצר את הבקשה שבחרתי בשני מודלים שונים, ותגיד לי כמה קרדיטים היו לפני וכמה אחרי."</blockquote>
+        <button class="copy" type="button" data-target="p2">העתקה</button>
+      </article>
+    </div>
+
+    <details class="dev">
+      <summary>למי שעובד עם סוכן קוד (<span class="en">Claude Code</span>, <span class="en">Cursor</span>, <span class="en">Codex</span>)</summary>
+      <p>היגספילד מציעים גם סקילים לסוכני קוד. ההתקנה, כמו שהיא מופיעה <a href="https://github.com/higgsfield-ai/skills" target="_blank" rel="noopener">בריפו הרשמי שלהם</a>, מתקינה ומחברת גם את ה-CLI שלהם:</p>
+      <pre class="code" dir="ltr"><code>npx skills add higgsfield-ai/skills</code></pre>
+      <p>ב-<span class="en">Claude Code</span> יש גם דרך בלי npx, מתוך Claude Code עצמו:</p>
+      <pre class="code" dir="ltr"><code>/plugin marketplace add higgsfield-ai/skills
+/plugin install higgsfield@higgsfield</code></pre>
+      <p>npx מוריד קוד מהאינטרנט ומריץ אותו. תעתיקו פקודות רק מהמקור הרשמי, לא מסרטון ולא מפוסט.</p>
+    </details>
+  </section>
+
+  <section id="security">
+    <h2><span class="kicker">Budget &amp; security</span>תקציב ואבטחה</h2>
+    <div class="sec">
+      <p>כל יצירה דרך קלוד עולה קרדיטים, <a href="https://higgsfield.ai/creator-hub/help-center/mcp-cli/what-is-higgsfield-mcp" target="_blank" rel="noopener">גם במסלולים שבאתר עצמו הם בלי הגבלה</a>. לכן אני לא נותן לקלוד אישור קבוע לייצר. הוא שואל, אני מאשר.</p>
+      <p>אם דף <span class="ui">Finish connecting a connector?</span> נפתח מלינק שמישהו שלח לכם, ולא אתם התחלתם את החיבור, לוחצים <span class="ui">Not now</span>. קלוד עצמו כותב שם שלינק לבד אף פעם לא מחבר כלום לחשבון.</p>
+      <p>היגספילד כותבים שאתם אחראים לכל מה שסוכן מייצר דרך החשבון שלכם. כמו בכל חיבור: לדעת מה ה-AI עושה לפני שזה קורה.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>רוצים שקלוד יקרא את ערכת המותג שלכם לפני שהוא מייצר? <a href="/notion/">המדריך לחיבור קלוד לנושן</a>.</p>
+    <p class="sig">קים קרול · <span class="en">Smiley Solution</span> · <span class="en">@kroll_k</span></p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var r='';
+  try { r=(new URLSearchParams(location.search).get('r')||'').toLowerCase().replace(/[^a-z0-9._-]/g,'').slice(0,40); } catch(e){}
+  var data=function(x){var d={r:r||'none',guide:'higgsfield'};for(var k in x)d[k]=x[k];return d;};
+  var q=[];
+  function track(n,x){ if(window.umami&&typeof window.umami.track==='function'){try{window.umami.track(n,data(x||{}));}catch(e){}} else q.push([n,x]); }
+  var t=0,f=setInterval(function(){t++; if(window.umami&&typeof window.umami.track==='function'){clearInterval(f);while(q.length){var a=q.shift();try{window.umami.track(a[0],data(a[1]||{}));}catch(e){}}} else if(t>40)clearInterval(f);},250);
+  track('open');
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var el=document.getElementById(btn.dataset.target);
+      var text=el.textContent.replace(/^"|"$/g,'');
+      var id=btn.dataset.target;
+      track(btn.dataset.kind==='url'?'copy-url':'copy-prompt',{prompt:id==='p1'?'before-generating':(id==='p2'?'compare':'mcp-url')});
+      var done=function(){btn.textContent='הועתק';setTimeout(function(){btn.textContent='העתקה';},1600);};
+      var fb=function(){var rg=document.createRange();rg.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(rg);btn.textContent='סומן, אפשר להעתיק';};
+      try{navigator.clipboard.writeText(text).then(done,fb);}catch(e){fb();}
+    });
+  });
+  var dev=document.querySelector('.dev'); if(dev) dev.addEventListener('toggle',function(){ if(dev.open) track('open-dev-box'); });
+  var sec=document.getElementById('security');
+  if(sec&&'IntersectionObserver' in window){var seen=false;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!seen){seen=true;track('read-to-security');io.disconnect();}});},{threshold:0.4});io.observe(sec);}
+})();
+</script>
+</body></html>
