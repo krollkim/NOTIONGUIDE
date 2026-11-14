@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מגיבים מילה, מקבלים לינק · Smiley Solution</title>
+<meta name="description" content="מדריך קצר לאוטומציה של ManyChat: תגובה על פוסט באינסטגרם שהופכת להודעה פרטית עם לינק.">
+<meta name="author" content="קים קרול">
+<meta name="theme-color" content="#0b0810">
+<link rel="canonical" href="https://smileysolution-ai-guide.netlify.app/manychat/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="Smiley Solution">
+<meta property="og:title" content="מגיבים מילה, מקבלים לינק">
+<meta property="og:description" content="מדריך קצר לאוטומציה של ManyChat: תגובה על פוסט באינסטגרם שהופכת להודעה פרטית עם לינק.">
+<meta property="og:url" content="https://smileysolution-ai-guide.netlify.app/manychat/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="מגיבים מילה, מקבלים לינק">
+<meta name="twitter:description" content="מדריך קצר לאוטומציה של ManyChat: תגובה על פוסט באינסטגרם שהופכת להודעה פרטית עם לינק.">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="bdcd474f-93c2-47aa-b1b1-aa06a217a004"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Poppins:wght@500;600;700&display=swap">
+<style>
+/* Layout: one narrow reading column (phone first), dark stage with purple glow like Kim's covers; screenshots in purple frames, magenta only marks what you tap. */
+:root{
+  --bg:#0b0810;
+  --surface:#15101d;
+  --surface-2:#1d1628;
+  --line:#2c2238;
+  --fg:#f1ecf7;
+  --muted:#a89cb8;
+  --purple:#6B3FA0;
+  --purple-soft:#9a72cf;
+  --magenta:#E6197F;
+  --he:"Rubik",system-ui,"Segoe UI",Arial,sans-serif;
+  --en:"Poppins","Rubik",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);direction:rtl}
+body{
+  margin:0;color:var(--fg);font-family:var(--he);font-size:17px;line-height:1.7;
+  background:
+    radial-gradient(60rem 34rem at 85% -8rem, rgba(107,63,160,.55), transparent 65%),
+    radial-gradient(40rem 30rem at -10% 30rem, rgba(107,63,160,.22), transparent 70%),
+    var(--bg);
+  background-repeat:no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+code.en, .ui{font-family:var(--en);font-size:.88em;font-weight:500;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:.05em .4em;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+
+/* hero */
+.hero{padding-block:36px 8px}
+.eyebrow{font-family:var(--en);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);display:flex;gap:.6em;align-items:center}
+.eyebrow b{color:var(--magenta);font-weight:700}
+h1{font-weight:800;font-size:clamp(2.5rem,11vw,3.6rem);line-height:1.05;margin:.35em 0 .3em;text-wrap:balance;letter-spacing:-.01em}
+h1 .hl{color:var(--magenta)}
+.lede{color:var(--muted);font-size:1.08rem;margin:0;max-width:34ch}
+
+/* sections */
+section{padding-top:44px}
+h2{font-size:1.55rem;font-weight:700;line-height:1.25;margin:0 0 .5em;text-wrap:balance}
+h2 .kicker{display:block;font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:.35em}
+p{margin:0 0 1em}
+a{color:var(--fg);text-decoration-color:var(--magenta);text-underline-offset:3px;text-decoration-thickness:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:6px}
+
+/* diagram */
+.flow{margin:18px 0 6px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 10px}
+.flow svg{display:block;width:100%;height:auto}
+
+/* need list */
+.need{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.need li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.need .dot{width:10px;height:10px;border-radius:50%;background:var(--purple);margin-top:.65em;box-shadow:0 0 0 4px rgba(107,63,160,.25)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:30px;counter-reset:s}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start}
+.num{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--en);font-weight:700;font-size:1.1rem;background:var(--purple);color:#fff;box-shadow:0 6px 24px rgba(107,63,160,.45)}
+.step h3{font-size:1.12rem;font-weight:700;margin:.3em 0 .3em}
+.step p{margin:0 0 .6em}
+
+/* screenshots */
+.step .shot,.step .ph{margin-inline-start:-58px}
+.shot{margin:12px 0 0;padding:6px;background:#0f0b16;border:1.5px solid var(--purple);border-radius:16px;box-shadow:0 0 0 4px rgba(107,63,160,.12),0 18px 40px rgba(0,0,0,.45)}
+.shot img{display:block;width:100%;height:auto;border-radius:10px}
+.shot.narrow{max-width:300px}
+.shot.mid{max-width:420px}
+.shot figcaption{font-size:.8rem;color:var(--muted);padding:8px 6px 2px}
+.ph{margin:12px 0 0;border:2px dashed var(--magenta);border-radius:16px;padding:22px 16px;text-align:center;color:var(--magenta);font-weight:500;font-size:.95rem;background:rgba(230,25,127,.06)}
+.ph small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--muted);font-size:.95rem;margin-top:16px}
+.note strong{color:var(--fg)}
+
+/* book chapters */
+.chapters{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.chapters li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.chapters b{display:block;color:var(--fg)}
+.chapters span{color:var(--muted);font-size:.93rem}
+
+/* prompt cards */
+.cards{display:grid;gap:14px}
+.card{position:relative;border-radius:18px;padding:18px 18px 16px;background:linear-gradient(160deg,rgba(107,63,160,.32),rgba(21,16,29,.9) 60%);border:1px solid rgba(154,114,207,.4)}
+.card .tag{font-family:var(--en);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta)}
+.card h3{margin:.2em 0 .5em;font-size:1.1rem}
+.card blockquote{margin:0;font-size:1.02rem;line-height:1.65;color:var(--fg)}
+.copy{margin-top:12px;font:500 .85rem var(--he);color:var(--fg);background:transparent;border:1px solid rgba(154,114,207,.55);border-radius:999px;padding:6px 14px;cursor:pointer}
+.copy:hover{border-color:var(--magenta)}
+
+/* security */
+.sec{border-inline-start:3px solid var(--magenta);padding-inline-start:16px}
+.tip{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:6px}
+.tip .t{font-family:var(--en);font-weight:600;font-size:.75rem;letter-spacing:.1em;color:var(--purple-soft);text-transform:uppercase}
+
+footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted)}
+footer p{margin:0 0 .6em}
+.sig{color:var(--fg);font-weight:700;font-size:1.05rem}
+.sig .en{font-weight:600}
+
+@media (prefers-reduced-motion:no-preference){
+  .num{transition:transform .2s}
+  .step:hover .num{transform:translateY(-2px)}
+}
+
+.sub{font-size:1.15rem;margin:34px 0 12px}
+.code{margin:10px 0 0;background:#0f0b16;border:1px solid var(--line);border-radius:12px;padding:12px 14px;overflow-x:auto;font:500 .9rem/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--fg);text-align:left}
+.step .code{margin-right:-58px}
+.dev{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.dev summary{cursor:pointer;font-weight:600;color:var(--fg)}
+.dev p{color:var(--muted);font-size:.95rem;margin:.8em 0 0}
+.dev[open] summary{margin-bottom:4px}
+
+.table-wrap{overflow-x:auto;margin:14px 0 4px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table.plans{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums}
+table.plans th,table.plans td{padding:9px 9px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top}
+table.plans tr:last-child th,table.plans tr:last-child td{border-bottom:0}
+table.plans thead th{font-family:var(--en);font-weight:600;color:var(--purple-soft);font-size:.85rem}
+table.plans tbody th{font-weight:500;color:var(--muted);white-space:normal}
+table.methods tbody th{font-family:var(--en);color:var(--fg);white-space:normal;min-width:7.5em}
+ol.plain{margin:0 0 4px;padding-inline-start:1.3em;display:grid;gap:6px}
+footer .dev{margin:14px 0 18px}
+footer .dev p a{white-space:normal}
+</style>
+</head>
+<body>
+<main class="wrap" dir="rtl" lang="he">
+  <header class="hero">
+    <div class="eyebrow"><span>ManyChat</span><b>×</b><span>Instagram</span></div>
+    <h1>מגיבים מילה, <span class="hl">מקבלים לינק</span></h1>
+    <p class="lede">מדריך קצר לאוטומציה של ManyChat: תגובה על פוסט שהופכת להודעה פרטית עם לינק</p>
+  </header>
+
+  <section id="idea">
+    <h2><span class="kicker">The idea</span>מה בונים</h2>
+    <p>אם הגעתם לכאן, הגבתם על סרטון וקיבלתם את המדריך אוטומטית בהודעות. זה המנגנון שתבנו עכשיו.</p>
+    <p>בסוף יהיה לכם פוסט שכל מי שמגיב עליו מילה מסוימת מקבל הודעה פרטית עם לינק, בלי שתצטרכו לענות לאף אחד ידנית.</p>
+  </section>
+
+  <section id="need">
+    <h2><span class="kicker">Before you start</span>מה צריך</h2>
+    <ul class="need">
+      <li><span class="dot"></span><span><b>חשבון אינסטגרם מקצועי.</b> אני על Creator, אפשר גם Business. חשבון אישי לא יתחבר. מחליפים באפליקציה: <span class="ui">Settings and activity</span>, ואז <span class="ui">Account type and tools</span>, ואז <span class="ui">Switch to professional account</span>. חשבון פרטי יהפוך לציבורי במעבר.</span></li>
+      <li><span class="dot"></span><span><b>גישה להודעות.</b> באינסטגרם: <span class="ui">Settings and activity</span>, ואז <span class="ui">Messages and story replies</span>, <span class="ui">Message controls</span> ו-<span class="ui">Connected tools</span>. שם מדליקים <span class="ui">Allow access to messages</span>. זו הבדיקה הראשונה כשהחיבור נתקע, אז עדיף מראש.</span></li>
+      <li><span class="dot"></span><span><b>חשבון ManyChat.</b> נרשמים באתר שלהם עם פייסבוק או גוגל.</span></li>
+    </ul>
+  </section>
+
+  <section id="plan">
+    <h2><span class="kicker">Which plan</span>איזו תוכנית</h2>
+    <p>ManyChat סופרים אנשי קשר פעילים: כל מי שקיבל מכם הודעה דרכם בחודש נספר פעם אחת, והספירה מתאפסת כל חודש. מספר העוקבים לא משנה.</p>
+    <div class="table-wrap">
+      <table class="plans">
+        <thead><tr><th></th><th>Free</th><th>Essential</th><th>Pro</th></tr></thead>
+        <tbody>
+          <tr><th>מחיר לחודש</th><td>חינם</td><td>$17</td><td>$39</td></tr>
+          <tr><th>אנשי קשר בחודש</th><td>25</td><td>250</td><td>2,500</td></tr>
+          <tr><th>אוטומציות פעילות</th><td>עד 4</td><td>ללא הגבלה</td><td>ללא הגבלה</td></tr>
+          <tr><th>הודעת Powered by</th><td>מופיע</td><td>לא</td><td>לא</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">לאוטומציה אחת על פוסט אחד, <strong>Free מספיקה</strong>. מצפים ליותר מ-25 מגיבים בחודש? תתחילו מ-Essential. המחירים בדולרים, בלי מס, <a href="https://manychat.com/pricing" target="_blank" rel="noopener">לפי עמוד המחירים</a> בנובמבר 2026. התוכנית שלכם מופיעה ב-<span class="ui">Settings</span>, תחת <span class="ui">Billing</span> ואז <span class="ui">Subscriptions</span>.</div>
+    <p style="margin-top:16px"><b>מה קורה ב-Free אחרי 25?</b> ManyChat מציגים את ההודעה הזו: אנשי קשר חדשים כבר לא מקבלים את האוטומציה, עד שהספירה מתאפסת או שמשדרגים.</p>
+    <figure class="shot"><img src="img/m10-limit.jpg" alt="Your new contacts aren't getting automations. You've hit your plan limit." width="620" height="39"></figure>
+  </section>
+
+  <section id="connect">
+    <h2><span class="kicker">Step 1</span>מחברים את אינסטגרם</h2>
+    <ol class="plain">
+      <li>חדשים ב-ManyChat: <span class="ui">Get started</span> ואז <span class="ui">Instagram</span>. כבר יש חשבון: <span class="ui">Settings</span> בתפריט הצד, <span class="ui">Instagram</span> ו-<span class="ui">Connect</span>.</li>
+      <li>בוחרים <span class="ui">Connect Via Instagram</span>.</li>
+      <li>עוברים על ההרשאות, <span class="ui">Allow</span>, ואז <span class="ui">Let's start</span>.</li>
+    </ol>
+    <p>יש עוד דרכים להתחבר, דרך Meta. אני התחברתי דרך אינסטגרם, בלי דף פייסבוק ובלי חשבון עסקי של Meta, וזה הכי פשוט.</p>
+    <p>כשזה מחובר, ב-<span class="ui">Settings</span> ואז <span class="ui">Instagram</span> מופיע החשבון שלכם:</p>
+    <figure class="shot mid"><img src="img/m11-connected.jpg" alt="חשבון האינסטגרם מחובר ב-Settings של ManyChat" width="685" height="204"></figure>
+    <details class="dev">
+      <summary>החיבור נתקע?</summary>
+      <p>תוודאו שהחשבון מקצועי ושה-<span class="ui">Allow access to messages</span> דלוק. ב-ManyChat: <span class="ui">Help</span> ואז <span class="ui">Refresh permissions</span>. אם כתוב <span class="ui">Request Sent</span> במקום Connect, החשבון כבר מחובר ל-ManyChat של מישהו אחר, ומי שחיבר אותו צריך להעביר אליכם את הבעלות.</p>
+    </details>
+  </section>
+
+  <section id="build">
+    <h2><span class="kicker">Step 2</span>בונים את האוטומציה</h2>
+    <p>ל-ManyChat יש תבנית מוכנה בדיוק לזה: <span class="ui">Auto-DM links from comments</span>. היא נמצאת ב-<span class="ui">Home</span>, תחת <span class="ui">Start Here</span>. או: <span class="ui">Automations</span>, ואז <span class="ui">New Automation</span>.</p>
+    <figure class="shot"><img src="img/m1-template.jpg" alt="הכרטיס Auto-DM links from comments תחת Start here" width="620" height="125"></figure>
+    <ol class="steps" style="margin-top:26px">
+      <li class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>על איזה פוסט</h3>
+          <p><span class="ui">A specific post or reel</span> לפוסט אחד, <span class="ui">Any post or reel</span> לכל הפוסטים, או <span class="ui">Next post or reel</span> לפוסט הבא שתעלו.</p>
+          <figure class="shot mid"><img src="img/m2-post.jpg" alt="comments on a specific post or reel עם הפוסט שנבחר" width="500" height="285"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>מילת המפתח</h3>
+          <p>המילה שהתגובה צריכה לכלול. מילה אחת, קצרה, קלה להקלדה בטלפון, ושלא סביר שמישהו יכתוב סתם.</p>
+          <figure class="shot mid"><img src="img/m3-keyword.jpg" alt="a specific word or reaction עם המילה מדריך" width="500" height="210"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>תגובה ציבורית</h3>
+          <p>תשובה שמופיעה מתחת לתגובה, כדי שהאדם ידע שראו אותו. אפשר עד שלושה נוסחים, ו-ManyChat מחליף ביניהם.</p>
+          <figure class="shot mid"><img src="img/m4-replies.jpg" alt="שלושה נוסחים לתגובה הציבורית" width="440" height="270"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>הודעת פתיחה</h3>
+          <p><span class="ui">Opening DM</span>: הודעה קצרה עם כפתור, לפני הלינק. מי שלוחץ מאשר שהוא רוצה לדבר איתכם, ומשם אפשר לשלוח לו עוד הודעות במשך 24 שעות. בלעדיה אין בקשת מעקב, בקשת מייל או תזכורת.</p>
+          <figure class="shot mid"><img src="img/m5-opening.jpg" alt="an opening DM עם טקסט וכפתור" width="503" height="435"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">5</div>
+        <div>
+          <h3>ההודעה עם הלינק</h3>
+          <p>טקסט ועד שלושה לינקים. קובץ? מעלים לגוגל דרייב או לדף ציבורי בנושן, ושולחים לינק. תוודאו שהוא פתוח לכל מי שמקבל אותו.</p>
+          <p>אופציונלי, לפני הלינק: בקשה לעקוב ובקשת מייל. ואחריו: תזכורת למי שלא לחץ.</p>
+          <figure class="shot mid"><img src="img/m6-link.jpg" alt="a DM with a link עם שני כפתורי לינק" width="503" height="430"></figure>
+        </div>
+      </li>
+      <li class="step">
+        <div class="num">6</div>
+        <div>
+          <h3>Go Live</h3>
+          <p>למעלה מימין. אחרי שהאוטומציה באוויר, באותו מקום מופיעים <span class="ui">Edit</span> לשינויים ו-<span class="ui">Stop</span> לעצירה.</p>
+          <figure class="shot narrow"><img src="img/m7-editstop.jpg" alt="הכפתורים Edit ו-Stop" width="228" height="70"></figure>
+        </div>
+      </li>
+    </ol>
+
+    <h3 class="sub">דוגמאות לתגובה הציבורית</h3>
+    <div class="cards">
+      <article class="card">
+        <div class="tag">Reply 1</div>
+        <blockquote id="p1">"שלחתי לכם בפרטי 📩 לא רואים? תבדקו בבקשות ההודעות."</blockquote>
+        <button class="copy" type="button" data-target="p1">העתקה</button>
+      </article>
+      <article class="card">
+        <div class="tag">Reply 2</div>
+        <blockquote id="p2">"המדריך מחכה לכם בהודעות. אם אתם לא עוקבים, הוא בבקשות."</blockquote>
+        <button class="copy" type="button" data-target="p2">העתקה</button>
+      </article>
+    </div>
+  </section>
+
+  <section id="keyword">
+    <h2><span class="kicker">One post, one guide</span>יותר ממדריך אחד?</h2>
+    <p>תגדירו כל אוטומציה על הפוסט שלה, עם <span class="ui">A specific post or reel</span>. ככה כל פוסט שולח את המדריך שלו, גם אם המילה זהה.</p>
+    <ul class="chapters">
+      <li><b>מילה שונה לכל אוטומציה</b><span>כל מילה מפעילה את האוטומציה שלה.</span></li>
+      <li><b>כמה אוטומציות על כל הפוסטים, בלי מילה</b><span>רק הוותיקה מביניהן תפעל.</span></li>
+      <li><b>אותה מילה גם על כל הפוסטים וגם על פוסט מסוים</b><span>ManyChat לא מפרטים מה קורה. עדיף לא להגיע לזה.</span></li>
+    </ul>
+  </section>
+
+  <section id="security">
+    <h2><span class="kicker">Instagram rules</span>מה אינסטגרם מאפשר</h2>
+    <div class="sec">
+      <p><b>הודעה אחת לכל תגובה, עד 7 ימים.</b> את ההמשך אפשר לשלוח רק אחרי שהאדם עונה או לוחץ על כפתור. בשביל זה הודעת הפתיחה.</p>
+      <p><b>רק התגובה הראשונה.</b> מי שמגיב שוב על אותו פוסט לא יקבל הודעה שנייה. זו מגבלה של אינסטגרם, לא של ManyChat.</p>
+      <p><b>איפה ההודעה נוחתת.</b> אצל מי שעוקב, בתיבה הראשית. אצל מי שלא, בבקשות ההודעות.</p>
+      <p><b>ספאם.</b> כמה נוסחים שונים לתגובה הציבורית, להחליף אותם מדי פעם, ולא לענות רק באימוג'י. ו-Meta ממליצים לציין בהודעה שהיא אוטומטית.</p>
+    </div>
+  </section>
+
+  <section id="test">
+    <h2><span class="kicker">Step 3</span>בודקים מחשבון שני</h2>
+    <ol class="plain">
+      <li>מחשבון אחר מגיבים על הפוסט את מילת המפתח.</li>
+      <li>בודקים את ההודעות בחשבון השני. לא עוקב? ההודעה בבקשות.</li>
+      <li>לוחצים על הכפתור ובודקים שהלינק נפתח למקום הנכון.</li>
+      <li>רוצים לבדוק שוב? צריך חשבון אחר או פוסט אחר.</li>
+    </ol>
+    <p>עוד לפני שמגיבים, בלשונית <span class="ui">Preview</span> של האוטומציה רואים איך התגובה וההודעות ייראו בטלפון:</p>
+    <figure class="shot"><img src="img/m9-preview.jpg" alt="התצוגה המקדימה של ManyChat: התגובה הציבורית וההודעות" width="620" height="614"></figure>
+    <p style="margin-top:16px">אחרי שזה באוויר, בלשונית <span class="ui">Insights</span> של האוטומציה רואים כמה הודעות נשלחו (<span class="ui">Sends</span>), כמה לחצו על הלינק (<span class="ui">Clicks</span>) ואת האחוז (<span class="ui">CTR</span>).</p>
+    
+  </section>
+
+  <footer>
+    <p>זה איך שאני שולח את המדריכים שלי היום. אם קיבלתם את הדף הזה בהודעה, ראיתם את זה עובד.</p>
+    <p>עוד מדריכים: <a href="/notion/">קלוד ונושן</a> · <a href="/higgsfield/">היגספילד</a></p>
+    <details class="dev">
+      <summary>מקורות</summary>
+      <p><a href="https://help.manychat.com/en/articles/17741886-how-to-connect-instagram-to-manychat" target="_blank" rel="noopener">How to connect Instagram to Manychat</a> · <a href="https://help.manychat.com/en/articles/17741913-can-t-connect-instagram-to-manychat" target="_blank" rel="noopener">Can't connect Instagram to Manychat</a> · <a href="https://help.manychat.com/en/articles/17742037-quick-automation-auto-dm-links-from-comments" target="_blank" rel="noopener">Auto-DM links from comments</a> · <a href="https://help.manychat.com/en/articles/17741897-instagram-post-and-reel-comments-trigger" target="_blank" rel="noopener">Post and Reel Comments trigger</a> · <a href="https://manychat.com/pricing" target="_blank" rel="noopener">ManyChat Pricing</a> · <a href="https://help.instagram.com/502981923235522" target="_blank" rel="noopener">Instagram: professional account</a> · <a href="https://developers.facebook.com/documentation/business-messaging/instagram-messaging/features/private-replies" target="_blank" rel="noopener">Meta: Private replies</a></p>
+    </details>
+    <p class="sig">קים קרול · <span class="en">Smiley Solution</span> · <span class="en">@kroll_k</span></p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var r='';
+  try { r=(new URLSearchParams(location.search).get('r')||'').toLowerCase().replace(/[^a-z0-9._-]/g,'').slice(0,40); } catch(e){}
+  var data=function(x){var d={r:r||'none',guide:'manychat'};for(var k in x)d[k]=x[k];return d;};
+  var q=[];
+  function track(n,x){ if(window.umami&&typeof window.umami.track==='function'){try{window.umami.track(n,data(x||{}));}catch(e){}} else q.push([n,x]); }
+  var t=0,f=setInterval(function(){t++; if(window.umami&&typeof window.umami.track==='function'){clearInterval(f);while(q.length){var a=q.shift();try{window.umami.track(a[0],data(a[1]||{}));}catch(e){}}} else if(t>40)clearInterval(f);},250);
+  track('open');
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var el=document.getElementById(btn.dataset.target);
+      var text=el.textContent.replace(/^"|"$/g,'');
+      var id=btn.dataset.target;
+      track(btn.dataset.kind==='url'?'copy-url':'copy-reply',{prompt:id==='p1'?'reply-1':'reply-2'});
+      var done=function(){btn.textContent='הועתק';setTimeout(function(){btn.textContent='העתקה';},1600);};
+      var fb=function(){var rg=document.createRange();rg.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(rg);btn.textContent='סומן, אפשר להעתיק';};
+      try{navigator.clipboard.writeText(text).then(done,fb);}catch(e){fb();}
+    });
+  });
+  var dev=document.querySelector('.dev'); if(dev) dev.addEventListener('toggle',function(){ if(dev.open) track('open-dev-box'); });
+  var sec=document.getElementById('security');
+  if(sec&&'IntersectionObserver' in window){var seen=false;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!seen){seen=true;track('read-to-security');io.disconnect();}});},{threshold:0.4});io.observe(sec);}
+})();
+</script>
+
+</body>
+</html>
